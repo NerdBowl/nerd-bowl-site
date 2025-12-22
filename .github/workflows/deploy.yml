@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - main
+  # Trigger via dispatch
+  repository_dispatch:
+    types: [ update_content ]
   # Trigger manually from the Actions tab
   workflow_dispatch:
-  # Run automatically every hour to sync changes from your vault
-  schedule:
-    - cron: '0 * * * *'
 
 permissions:
   contents: read
@@ -23,11 +23,15 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Site (Quartz Engine)
+        uses: actions/checkout@v4
+
+      - name: Checkout Content (Vault)
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          # This is critical: it pulls your nerd-bowl-vault content
-          submodules: true
+          repository: NerdBowl/nerd-bowl-vault
+          path: content  # Puts your vault directly into the content folder
+          fetch-depth: 0 # Fetches full history (good for 'Last Modified' dates)
 
       - name: Setup Node
         uses: actions/setup-node@v4
