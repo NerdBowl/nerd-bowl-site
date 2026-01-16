@@ -33,20 +33,17 @@ jobs:
           path: vault-temp # Checkout to a temporary directory
           token: ${{ secrets.VAULT_PAT }}
           fetch-depth: 0
-          # CHANGE 1: Removed 'sparse-checkout'. We will fetch the whole repo to ensure we get the files.
 
       - name: Setup Content
         run: |
-          # CHANGE 2: Debugging - List files to verify structure in the logs
-          echo "Listing vault-temp contents:"
-          ls -R vault-temp
-          
           # Create 'content/' directory
           mkdir -p content
           
-          # CHANGE 3: Safer copy command. 
-          # Copies everything INSIDE vault-temp/site/ to content/
+          # Copy ONLY the contents of the 'site' folder from the vault
           cp -r vault-temp/site/. content/
+          
+          echo "Verifying content directory structure:"
+          ls -R content
           
           # Cleanup
           rm -rf vault-temp
