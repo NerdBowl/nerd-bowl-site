@@ -33,19 +33,16 @@ jobs:
           path: vault-temp # Checkout to a temporary directory
           token: ${{ secrets.VAULT_PAT }}
           fetch-depth: 0
+          sparse-checkout: |
+            site
 
       - name: Setup Content
         run: |
           # Create 'content/' directory
           mkdir -p content
-          
-          # Copy ONLY the contents of the 'site' folder from the vault
+          # Copy contents of 'site' folder to 'content'
           cp -r vault-temp/site/. content/
-          
-          echo "Verifying content directory structure:"
-          ls -R content
-          
-          # Cleanup
+          # Remove temporary directory
           rm -rf vault-temp
 
       - name: Setup Node
