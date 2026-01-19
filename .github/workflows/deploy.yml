@@ -24,10 +24,10 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout Site (Quartz Engine)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Checkout Content (Vault)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: NerdBowl/nerd-bowl-vault
           path: vault-temp # Checkout to a temporary directory
@@ -46,7 +46,7 @@ jobs:
           rm -rf vault-temp
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 22
 
@@ -57,7 +57,7 @@ jobs:
         run: npx quartz build
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: public
 
